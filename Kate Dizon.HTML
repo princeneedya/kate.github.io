@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Food Preservation in Aquaculture </title>
+  <meta name="description" content="Practical guide to preserving aquaculture products (fish, shrimp, seaweed): methods, best practices and safety." />
+  <style>
+    :root{
+      --accent:#0b6e4f;
+      --muted:#cbd5db;
+      --deep-start:#021428; /* deep navy */
+      --deep-end:#033a5b;   /* teal-blue */
+      --card:#0f1b25;
+      --maxw:1100px;
+      --radius:12px;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color:#e6f6fb;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; background:linear-gradient(180deg,var(--deep-start),var(--deep-end)); line-height:1.5; overflow-x:hidden; color:var(--muted)}
+
+    /* subtle ocean wave background using svg data URI and slow animation */
+    .background-waves{
+      position:fixed; inset:0; z-index:-3; pointer-events:none; opacity:0.22;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 200' preserveAspectRatio='none'><defs><linearGradient id='g' x1='0' x2='1' y1='0' y2='1'><stop offset='0' stop-color='%23063a57' stop-opacity='0.18'/><stop offset='1' stop-color='%23001a2b' stop-opacity='0.06'/></linearGradient></defs><path d='M0,80 C150,150 350,10 600,60 C850,110 1050,40 1200,80 L1200,200 L0,200 Z' fill='url(%23g)'/></svg>");
+      background-repeat:repeat-x; background-size:1600px 200px; animation:wave-move 20s linear infinite; filter:blur(0.2px);
+      transform-origin:center bottom;
+    }
+    @keyframes wave-move{from{background-position-x:0}to{background-position-x:1600px}}
+
+    /* subtle floating bubbles */
+    .bubbles{position:fixed; inset:0; z-index:-2; pointer-events:none}
+    .bubble{position:absolute; bottom:-40px; background:rgba(230,246,251,0.06); border-radius:50%; opacity:0.95; mix-blend-mode:screen; filter:blur(0.6px); animation:rise linear infinite}
+    @keyframes rise{0%{transform:translateY(0) scale(0.6); opacity:0.85}80%{opacity:0.35}100%{transform:translateY(-110vh) scale(1); opacity:0}}
+
+    .wrap{max-width:var(--maxw); margin:40px auto; padding:26px}
+    header{display:flex;align-items:center;gap:18px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#0e8aa0,#052d42);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:0 8px 26px rgba(0,0,0,0.35)}
+    nav{margin-left:auto}
+    nav a{margin-left:12px;text-decoration:none;color:var(--muted);font-weight:600}
+
+    /* header band */
+    .header-band{background:linear-gradient(90deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12)); color:var(--muted); padding:10px 0; border-radius:10px; box-shadow:0 8px 30px rgba(0,0,0,0.18)}
+    .hero{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:20px; border-radius:var(--radius); display:grid;grid-template-columns:1fr 340px; gap:20px; align-items:center; box-shadow:0 10px 30px rgba(0,0,0,0.18)}
+    .hero h1{margin:0;font-size:30px;color:#e9fbff}
+    .lead{color:rgba(230,246,251,0.9); margin-top:8px}
+    .stat{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.18)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:18px}
+    section{margin-top:22px}
+    h2{margin:6px 0 12px;color:#e6fbff}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.14)}
+    ul{margin:0;padding-left:18px;color:var(--muted)}
+    table{width:100%;border-collapse:collapse}
+    td,th{padding:10px;border-bottom:1px solid rgba(255,255,255,0.04); color:var(--muted)}
+    .methods{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .method{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); transition:transform .28s ease, box-shadow .28s ease}
+    .method:hover{transform:translateY(-6px); box-shadow:0 18px 36px rgba(0,0,0,0.22)}
+    footer{margin-top:28px;color:var(--muted);font-size:14px;text-align:center}
+    .cta{display:inline-block;background:#0a6b98;color:white;padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:700}
+    img{width:100%;border-radius:10px;object-fit:cover;display:block}
+    .img-small{height:160px}
+    .img-med{height:220px}
+    .img-hero{height:260px}
+
+    /* gentle image hover effect */
+    .card img, .method img, aside img{transition:transform .6s cubic-bezier(.2,.9,.3,1), filter .35s ease}
+    .card img:hover, .method img:hover, aside img:hover{transform:scale(1.03); filter:brightness(1.02)}
+
+    /* placeholder for missing local images */
+    img.missing{background:rgba(255,255,255,0.02);display:flex;align-items:center;justify-content:center;color:rgba(230,246,251,0.5);font-weight:600;height:160px}
+
+    /* alternating section backgrounds */
+    main > section:nth-of-type(odd){background:transparent; padding:14px; border-radius:12px}
+    main > section:nth-of-type(even){background:transparent}
+
+    /* Back to top button (rounded blue bubble icon) */
+    #backTop{position:fixed; right:22px; bottom:28px; width:56px; height:56px; border-radius:50%; border:0; background:linear-gradient(135deg,#1b6fa0,#064a73); color:white; font-size:22px; display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(2,10,20,0.5); cursor:pointer; opacity:0; transform:translateY(10px); transition:opacity .28s ease, transform .28s ease, box-shadow .28s ease; z-index:1000}
+    #backTop.show{opacity:1; transform:translateY(0)}
+    #backTop:focus{outline:3px solid rgba(255,255,255,0.12)}
+
+    /* responsive */
+    @media (max-width:980px){.hero{grid-template-columns:1fr;}.methods{grid-template-columns:1fr}.brand .logo{width:48px;height:48px}}
+  </style>
+</head>
+<body>
+  <!-- decorative animated background layers -->
+  <div class="background-waves" aria-hidden="true"></div>
+  <div class="bubbles" id="bubbles" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header class="header-band" style="display:flex;align-items:center;gap:18px;padding-left:20px;padding-right:20px">
+      <div class="brand">
+        <div class="logo">AQ</div>
+        <div>
+          <div style="font-weight:700;color:#e9fbff">TLE GRUOP ONE</div>
+          <div style="font-size:12px;color:rgba(230,246,251,0.85)">Food preservation for aquaculture producers</div>
+        </div>
+      </div>
+      <nav style="margin-left:auto;padding-right:8px">
+        <a href="#overview" style="color:rgba(230,246,251,0.9)">Overview</a>
+        <a href="#methods" style="color:rgba(230,246,251,0.9)">Methods</a>
+        <a href="#safety" style="color:rgba(230,246,251,0.9)">Safety</a>
+        <a href="#resources" style="color:rgba(230,246,251,0.9)">Resources</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero card" id="overview">
+        <div>
+          <h1>Food preservation in aquaculture — keeping harvests safe and valuable</h1>
+          <p class="lead">Practical techniques for handling, storing, and processing fish, shrimp, mollusks and seaweed to reduce spoilage, maintain quality, and increase shelf life.</p>
+          <img src="https://www.researchgate.net/publication/337804118/figure/fig1/AS:11431281420572233@1746243739483/Fish-processing-by-product-generation-and-end-use-opportunities.tif" alt="Fish processing in aquaculture" class="img-hero" onerror="this.className='missing img-hero';this.alt='Image missing'" />
+
+          <div class="grid" style="margin-top:16px">
+            <div class="stat card">
+              <strong>Who this guide is for</strong>
+              <p style="margin:8px 0;color:var(--muted)">Small-scale fish farmers, hatcheries, processors and extension workers.</p>
+            </div>
+            <div class="stat card">
+              <strong>Why it matters</strong>
+              <p style="margin:8px 0;color:var(--muted)">Preservation reduces post-harvest losses, improves food safety, and increases income.</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card" style="padding:12px">
+          <img src="https://www.seriouseats.com/thmb/lcYlUwbcpD1hVltUfrztNsYng_I=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__images__2017__04__20170417-greenpointfishlobsterco-fishonice-vicky-wasik-1-d1b21340d3ab478eb41fd4c95d528cd7.jpg" alt="Fresh fish on ice" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+          <strong style="display:block;margin-top:8px;color:#e9fbff">Quick checklist</strong>
+          <ul style="margin-top:10px">
+            <li>Fast chilling after harvest</li>
+            <li>Clean handling and hygienic surfaces</li>
+            <li>Appropriate salt/smoke/drying methods where cold chain isn't available</li>
+            <li>Use of simple packaging and labeling</li>
+          </ul>
+          <div style="margin-top:12px;text-align:center">
+            <a class="cta" href="#methods">Explore methods</a>
+          </div>
+        </aside>
+      </section>
+
+      <section id="methods">
+        <h2>Common preservation methods</h2>
+        <div class="methods">
+          <div class="method card">
+            <img src="https://assets.big4.com.au/media/nllioi1v/esky.jpg?width=1100" alt="Fish stored with ice" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+            <h3 style="color:#e6fbff">Cooling & Cold Chain</h3>
+            <p style="color:var(--muted)">Rapid chilling (icing, refrigerated seawater, ice slurry) immediately after harvest slows bacterial growth and enzymatic decay.</p>
+            <ul>
+              <li>Ice: crushed ice in insulated containers</li>
+              <li>Refrigeration: 0–4°C for most fish</li>
+              <li>Freezing: -18°C or colder for long-term storage</li>
+            </ul>
+          </div>
+
+          <div class="method card">
+            <img src="https://media.sciencephoto.com/image/c0546652/800wm/C0546652-Cod_fish_drying_on_a_rack_in_the_traditional_open-air_way.jpg" alt="Fish drying on racks" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+            <h3 style="color:#e6fbff">Drying & Salting</h3>
+            <p style="color:var(--muted)">Traditional and low-cost method – remove moisture so microbes cannot grow.</p>
+            <ul>
+              <li>Sun-drying on racks (protect from flies)</li>
+              <li>Solar dryers for better control</li>
+              <li>Salt-curing: dry-salting or brine salting</li>
+            </ul>
+          </div>
+
+          <div class="method card">
+            <img src="https://www.techinafrica.com/wp-content/uploads/2017/11/7324178292-smoking-fish-758x504.jpg" alt="Smoking fish process" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+            <h3 style="color:#e6fbff">Smoking</h3>
+            <p style="color:var(--muted)">Heat and smoke impart flavor and reduce moisture; use proper smoking temps to ensure safety.</p>
+            <ul>
+              <li>Hot smoking cooks and preserves</li>
+              <li>Cold smoking adds flavor but needs other barriers</li>
+            </ul>
+          </div>
+
+          <div class="method card">
+            <img src="https://imageio.forbes.com/specials-images/imageserve/6504a402f891de0be728ff0d/0x0.jpg?format=jpg&height=900&width=1600&fit=bounds" alt="Canned fish" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+            <h3 style="color:#e6fbff">Canning & Thermal Processing</h3>
+            <p style="color:var(--muted)">Commercially sealed and heat-treated products have long shelf life if processed correctly.</p>
+            <ul>
+              <li>Pressure canning for low-acid foods (fish, shrimp)</li>
+              <li>Follow validated time/temperature schedules</li>
+            </ul>
+          </div>
+
+          <div class="method card">
+            <img src="https://hakaimagazine.com/wp-content/uploads/garum-fermenting-fish-1.jpg" alt="Fermenting fish sauce" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+            <h3 style="color:#e6fbff">Fermentation</h3>
+            <p style="color:var(--muted)">Used for value-added products (fish sauce, fermented shrimp). Requires hygienic process control.</p>
+            <ul>
+              <li>Controlled salt percentage and containers</li>
+            </ul>
+          </div>
+
+          <div class="method card">
+            <img src="https://media.istockphoto.com/id/1305841781/photo/sea-bass-fish-in-vacuum-sealed.jpg?s=612x612&w=0&k=20&c=gIxkT8lj9CHNajNu-OUUgdm2tVtdZIcLApAiy_0JrTE=" alt="Vacuum packed fish" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+            <h3 style="color:#e6fbff">Modified Atmosphere & Vacuum Packaging</h3>
+            <p style="color:var(--muted)">Pack fish in low-oxygen or vacuum to slow oxidation and microbial growth — often combined with refrigeration.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="handling" class="card">
+        <h2>Harvest handling & hygiene</h2>
+        <img src="https://greatdaysoutdoors.com/wp-content/uploads/2020/06/killerdock-IMG_0745-scaled.jpeg" alt="Fish cleaning station" class="img-med" onerror="this.className='missing img-med';this.alt='Image missing'" />
+        <p style="color:var(--muted);margin-top:6px">Good preservation starts on the farm: reduce stress and contamination at harvest.</p>
+        <ul>
+          <li>Use clean nets and containers; avoid prolonged exposure to heat.</li>
+          <li>Bleed and gut promptly if required for quality.</li>
+          <li>Keep surfaces and equipment sanitized; train staff in hand hygiene.</li>
+        </ul>
+      </section>
+
+      <section id="safety">
+        <h2>Food safety risks & how to control them</h2>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-EaH5YYt9PjFgRRGcg_4JT_UEj_RT2C5LGw&s" alt="Fish safety inspection" class="img-med" onerror="this.className='missing img-med';this.alt='Image missing'" />
+        <div class="grid">
+          <div class="card">
+            <strong>Common hazards</strong>
+            <ul>
+              <li>Bacterial growth (e.g., Vibrio, Salmonella)</li>
+              <li>Histamine formation in tuna, mackerel</li>
+              <li>Parasitic risks in raw products</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <strong>Control measures</strong>
+            <ul>
+              <li>Time–temperature control: keep below safe temperatures</li>
+              <li>Sanitation and traceability</li>
+              <li>Use validated processing procedures</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="case" class="card">
+        <h2>Simple case: extending shelf life of tilapia for local markets</h2>
+        <img src="https://previews.123rf.com/images/arissarachen/arissarachen1907/arissarachen190700044/127029609-top-view-of-fresh-tilapia-on-ice-for-sale-in-the-fish-market-at-thailand-seafood-as-a-background.jpg" alt="Tilapia on ice" class="img-med" onerror="this.className='missing img-med';this.alt='Image missing'" />
+        <ol>
+          <li>Harvest in the morning when water temperatures are cooler.</li>
+          <li>Immediately place fish on crushed ice in insulated boxes (1:1 fish:ice by volume).</li>
+          <li>At market, keep fish on ice and covered; sell within 24–48 hours.</li>
+          <li>If refrigeration is unavailable, consider solar-drying fillets or salt-curing.</li>
+        </ol>
+      </section>
+
+      <section id="resources">
+        <h2>Tools & resources</h2>
+        <div class="grid">
+          <div class="card">
+            <img src="https://thumbs.dreamstime.com/b/dryer-glass-%E2%80%8Bhouse%E2%80%8B-for%E2%80%8B-dried%E2%80%8B-preservation-solar-fish-drying-plant-170612589.jpg" alt="Solar fish dryer" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+            <strong style="color:#e6fbff">Low-cost equipment</strong>
+            <ul>
+              <li>Insulated fish boxes and crushed ice</li>
+              <li>Simple solar dryer or raised drying racks</li>
+              <li>Smokehouse or cabinet smoker</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <img src="https://img.freepik.com/premium-vector/tilapia-labels-packaging-design-concepts_389505-255.jpg" alt="Fish packaging and labeling" class="img-small" onerror="this.className='missing img-small';this.alt='Image missing'" />
+            <strong style="color:#e6fbff">Record-keeping</strong>
+            <p style="color:var(--muted)">Label batches with harvest date, method used and destination — helps trace problems and manage stocks.</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="card" style="text-align:center;background:linear-gradient(90deg, rgba(0,0,0,0.06), rgba(0,0,0,0.04));">
+      <h1><p style="color:var(--muted)">By Jhazmine kate D. Saucero</p><h1>
+      <p style="margin-top:6px;color:var(--muted)">Group 1</p>
+    </footer>
+  </div>
+
+  <!-- Back to top button -->
+  <button id="backTop" aria-label="Back to top">↑</button>
+
+  <script>
+    // Subtle bubble generator: creates gentle floating bubbles for visual depth
+    (function createBubbles(){
+      const container = document.getElementById('bubbles');
+      if(!container) return;
+      const bubbleCount = 12; // subtle amount
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+
+      for(let i=0;i<bubbleCount;i++){
+        const b = document.createElement('div');
+        b.className = 'bubble';
+        const size = Math.round(10 + Math.random()*56); // px
+        b.style.width = size+'px';
+        b.style.height = size+'px';
+        b.style.left = Math.round(Math.random()*(vw-40))+'px';
+        b.style.animationDuration = (22 + Math.random()*20)+'s';
+        b.style.animationDelay = (Math.random()*6)+'s';
+        b.style.opacity = (0.18 + Math.random()*0.8).toFixed(2);
+        container.appendChild(b);
+      }
+    })();
+
+    // Back to top button: show on scroll, smooth scroll on click
+    (function backToTop(){
+      const btn = document.getElementById('backTop');
+      if(!btn) return;
+      const showAt = 240;
+      window.addEventListener('scroll', () => {
+        if(window.pageYOffset > showAt) btn.classList.add('show'); else btn.classList.remove('show');
+      });
+      btn.addEventListener('click', () => {
+        window.scrollTo({top:0, behavior:'smooth'});
+      });
+    })();
+  </script>
+</body>
+</html>
